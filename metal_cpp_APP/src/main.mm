@@ -5,9 +5,14 @@
 //  Created by Chenruyi on 2025/11/13.
 //
 
-#include <iostream>
+#include "Window.hpp"
 
 int main(int argc, const char * argv[]) {
-    std::cout << "打开窗口" << std::endl;
+    Window window;
+    
+    window.init();
+    window.run();
+    window.release();
+    
     return 0;
 }

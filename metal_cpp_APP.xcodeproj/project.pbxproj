@@ -12,6 +12,8 @@
 		0B0878C42EC59C350089447A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0878C32EC59C350089447A /* QuartzCore.framework */; };
 		0B0878C62EC59C400089447A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0878C52EC59C400089447A /* Foundation.framework */; };
 		0B2AEAD02EC59F0D00822CB4 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */; };
+		0BDB8CC72EC842C300470B53 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDB8CC62EC842C200470B53 /* Cocoa.framework */; };
+		0BDB8CC82EC842CB00470B53 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,37 +36,40 @@
 		0B0878C52EC59C400089447A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		0B9B0BE52EC5974F006B8F6F /* metal_cpp_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = metal_cpp_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BDB8CC62EC842C200470B53 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		0B2A26712EC5A80A00822CB4 /* Exceptions for "lib" folder in "Embed Libraries" phase from "metal_cpp_APP" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			attributesByRelativePath = {
-				libglfw.3.dylib = (CodeSignOnCopy, );
-			};
-			buildPhase = 0B2A26702EC5A80A00822CB4 /* Embed Libraries */;
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B55B29F2EC5B60900A6ABF3 /* Exceptions for "include" folder in "metal_cpp_APP" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				libglfw.3.dylib,
+				"metal-cpp/LICENSE.txt",
+				"metal-cpp/README.md",
+				"metal-cpp/SingleHeader/MakeSingleHeader.py",
 			);
+			target = 0B9B0BE42EC5974F006B8F6F /* metal_cpp_APP */;
 		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0B2A22142EC5A4FB00822CB4 /* include */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B55B29F2EC5B60900A6ABF3 /* Exceptions for "include" folder in "metal_cpp_APP" target */,
+			);
 			path = include;
 			sourceTree = "<group>";
 		};
 		0B2A265E2EC5A51A00822CB4 /* lib */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0B2A26712EC5A80A00822CB4 /* Exceptions for "lib" folder in "Embed Libraries" phase from "metal_cpp_APP" target */,
-			);
 			path = lib;
 			sourceTree = "<group>";
 		};
 		0B2A26672EC5A63300822CB4 /* metal_cpp_APP */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+				src/Adapter/ViewLayerTransfer.mm = sourcecode.cpp.objcpp;
+			};
 			path = metal_cpp_APP;
 			sourceTree = "<group>";
 		};
@@ -75,8 +80,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BDB8CC72EC842C300470B53 /* Cocoa.framework in Frameworks */,
 				0B0878C62EC59C400089447A /* Foundation.framework in Frameworks */,
 				0B0878C42EC59C350089447A /* QuartzCore.framework in Frameworks */,
+				0BDB8CC82EC842CB00470B53 /* IOKit.framework in Frameworks */,
 				0B0878C22EC59C2B0089447A /* Metal.framework in Frameworks */,
 				0B0878C02EC59C240089447A /* Accelerate.framework in Frameworks */,
 				0B2AEAD02EC59F0D00822CB4 /* IOKit.framework in Frameworks */,
@@ -89,6 +96,7 @@
 		0B0878BE2EC59C240089447A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0BDB8CC62EC842C200470B53 /* Cocoa.framework */,
 				0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */,
 				0B0878C52EC59C400089447A /* Foundation.framework */,
 				0B0878C32EC59C350089447A /* QuartzCore.framework */,
@@ -101,9 +109,9 @@
 		0B9B0BDC2EC5974F006B8F6F = {
 			isa = PBXGroup;
 			children = (
+				0B2A22142EC5A4FB00822CB4 /* include */,
 				0B2A26672EC5A63300822CB4 /* metal_cpp_APP */,
 				0B2A265E2EC5A51A00822CB4 /* lib */,
-				0B2A22142EC5A4FB00822CB4 /* include */,
 				0B9B0BE62EC5974F006B8F6F /* Products */,
 				0B0878BE2EC59C240089447A /* Frameworks */,
 			);
@@ -127,6 +135,7 @@
 				0B9B0BE12EC5974F006B8F6F /* Sources */,
 				0B9B0BE22EC5974F006B8F6F /* Frameworks */,
 				0B2A26702EC5A80A00822CB4 /* Embed Libraries */,
+				0B55B29E2EC5B60900A6ABF3 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -176,6 +185,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0B55B29E2EC5B60900A6ABF3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0B9B0BE12EC5974F006B8F6F /* Sources */ = {
@@ -317,7 +336,11 @@
 				DEVELOPMENT_TEAM = 63AWKUZW28;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/include/metal-cpp",
+					"$(PROJECT_DIR)/include/",
+				);
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -347,7 +370,11 @@
 				DEVELOPMENT_TEAM = 63AWKUZW28;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/include/metal-cpp",
+					"$(PROJECT_DIR)/include/",
+				);
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -373,7 +400,7 @@
 				0B9B0BF72EC59751006B8F6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		0B9B0BF82EC59751006B8F6F /* Build configuration list for PBXNativeTarget "metal_cpp_APP" */ = {
 			isa = XCConfigurationList;
@@ -382,7 +409,7 @@
 				0B9B0BFA2EC59751006B8F6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,51 +1,61 @@
 {
   "images" : [
     {
+      "filename" : "皮卡丘16x16.heic",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
+      "filename" : "皮卡丘32x32 1.heic",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
+      "filename" : "皮卡丘32x32.heic",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
+      "filename" : "皮卡丘64x64.heic",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
+      "filename" : "皮卡丘128x128.heic",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
+      "filename" : "皮卡丘256x256.heic",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
+      "filename" : "皮卡丘256x256 1.heic",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
+      "filename" : "皮卡丘512x512.heic",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
+      "filename" : "皮卡丘512x512 1.heic",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
+      "filename" : "皮卡丘1024x1024.heic",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
