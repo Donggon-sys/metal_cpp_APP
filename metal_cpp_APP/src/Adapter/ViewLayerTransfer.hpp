@@ -6,22 +6,27 @@
 //
 #pragma once
 
-#define GLFW_INCLUDE_ONCE
 #include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_COCOA
-#include <GLFW/glfw3native.h>
 
 #include <Metal/Metal.hpp>
-#include <Metal/Metal.h>
 #include <QuartzCore/CAMetalLayer.hpp>
-#include <QuartzCore/CAMetalLayer.h>
 #include <QuartzCore/QuartzCore.hpp>
+
+#ifdef __OBJC__
+@class CAMetalLayer;
+@class NSWindow;
+#else
+typedef struct CAMetalLayer CAMetalLayer;
+typedef struct NSWindow NSWindow;
+#endif
 
 
 class ViewLayerTransfer {
 private:
-    CAMetalLayer *metalLayer = nullptr;
-    NSWindow *nsWindow = nullptr;
+    CAMetalLayer *metalLayer;
+    NSWindow *nsWindow;
 public:
+    ViewLayerTransfer();
+    ~ViewLayerTransfer();
     void Transfer(GLFWwindow *window, CA::MetalLayer *layer);
 };

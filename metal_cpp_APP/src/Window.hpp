@@ -10,17 +10,24 @@
 #include <Metal/Metal.hpp>
 #include <QuartzCore/CAMetalLayer.hpp>
 #include <QuartzCore/QuartzCore.hpp>
+
+#include "Render.hpp"
+
+
 class Window {
-public:
-    void init();
-    void run();
-    void release();
     
 private:
     void initDevice();
     void initWindow();
     GLFWwindow *window;
-    MTL::Device *device;
-    CA::MetalLayer *layer;
+    MTL::Device *_pDevice;
+    CA::MetalLayer *_pLayer;
+    Render *render;
+    
+public:
+    void init();
+    void run();
+    void release();
+    
 };
 

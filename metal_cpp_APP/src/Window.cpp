@@ -6,25 +6,32 @@
 //
 
 #include "Window.hpp"
+#include "Render.hpp"
 #include "Adapter/ViewLayerTransfer.hpp"
 
 void Window::init() {
+    render = new Render();
     initDevice();
     initWindow();
+    
+    render->setDevice(_pDevice);
+    render->setLayer(_pLayer);
+    render->init();
 }
 void Window::run() {
     while (!glfwWindowShouldClose(window)) {
+        render->draw();
         glfwPollEvents();
     }
 }
 
 void Window::release() {
     glfwTerminate();
-    device->release();
+    _pDevice->release();
 }
 
 void Window::initDevice() {
-    device = MTL::CreateSystemDefaultDevice();
+    _pDevice = MTL::CreateSystemDefaultDevice();
 }
 void Window::initWindow() {
     glfwInit();
@@ -34,9 +41,9 @@ void Window::initWindow() {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-    layer = CA::MetalLayer::layer();
-    layer->setDevice(device);
-    layer->setPixelFormat(MTL::PixelFormatBGRA8Unorm);
+    _pLayer = CA::MetalLayer::layer();
+    _pLayer->setDevice(_pDevice);
+    _pLayer->setPixelFormat(MTL::PixelFormatBGRA8Unorm);
     ViewLayerTransfer Transfer;
-    Transfer.Transfer(window, layer);
+    Transfer.Transfer(window, _pLayer);
 }
