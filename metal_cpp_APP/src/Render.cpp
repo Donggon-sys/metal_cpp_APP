@@ -47,8 +47,8 @@ void Render::createRenderPipeLine() {
     _pRenderPSO = _pDevice->newRenderPipelineState(pipelineDescriptor, &error);
     
     pipelineDescriptor->release();
-//    vertexFunction->release();
-//    fragmentFunction->release();
+    vertexFunction->release();
+    fragmentFunction->release();
 }
 
 void Render::draw() {
@@ -83,7 +83,7 @@ void Render::sendRenderCommand() {
     _pCommandBuffer->commit();
     _pCommandBuffer->waitUntilCompleted();
     
-//    encoder->release();
+    encoder->release();
     renderPassDescriptor->release();
 }
 
