@@ -11,15 +11,17 @@
 
 void Window::init() {
     render = new Render();
-    MTL::Device *device = MTL::CreateSystemDefaultDevice();
     
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    window = glfwCreateWindow(800, 600, "window", NULL, NULL);
+    window = glfwCreateWindow(2560, 1600, "window", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+    glfwSwapInterval(1);
+    
+    MTL::Device *device = MTL::CreateSystemDefaultDevice();
     CA::MetalLayer *layer = CA::MetalLayer::layer();
     layer->setDevice(device);
     layer->setPixelFormat(MTL::PixelFormatBGRA8Unorm);
@@ -29,10 +31,15 @@ void Window::init() {
     render->setDevice(device);
     render->setLayer(layer);
     render->init();
+    
 }
+
+
 void Window::run() {
     while (!glfwWindowShouldClose(window)) {
+        
         render->draw();
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 }
