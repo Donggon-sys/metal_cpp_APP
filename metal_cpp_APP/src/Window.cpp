@@ -19,7 +19,6 @@ void Window::init() {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-    glfwSwapInterval(1);
     
     MTL::Device *device = MTL::CreateSystemDefaultDevice();
     CA::MetalLayer *layer = CA::MetalLayer::layer();
@@ -39,7 +38,6 @@ void Window::run() {
     while (!glfwWindowShouldClose(window)) {
         
         render->draw();
-        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 }
