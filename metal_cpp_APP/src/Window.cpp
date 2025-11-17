@@ -11,11 +11,23 @@
 
 void Window::init() {
     render = new Render();
-    initDevice();
-    initWindow();
+    MTL::Device *device = MTL::CreateSystemDefaultDevice();
     
-    render->setDevice(_pDevice);
-    render->setLayer(_pLayer);
+    glfwInit();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    window = glfwCreateWindow(800, 600, "window", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+    CA::MetalLayer *layer = CA::MetalLayer::layer();
+    layer->setDevice(device);
+    layer->setPixelFormat(MTL::PixelFormatBGRA8Unorm);
+    ViewLayerTransfer Transfer;
+    Transfer.Transfer(window, layer);
+    
+    render->setDevice(device);
+    render->setLayer(layer);
     render->init();
 }
 void Window::run() {
@@ -27,23 +39,4 @@ void Window::run() {
 
 void Window::release() {
     glfwTerminate();
-    _pDevice->release();
-}
-
-void Window::initDevice() {
-    _pDevice = MTL::CreateSystemDefaultDevice();
-}
-void Window::initWindow() {
-    glfwInit();
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    window = glfwCreateWindow(800, 600, "window", NULL, NULL);
-    if (!window) {
-        glfwTerminate();
-        exit(EXIT_FAILURE);
-    }
-    _pLayer = CA::MetalLayer::layer();
-    _pLayer->setDevice(_pDevice);
-    _pLayer->setPixelFormat(MTL::PixelFormatBGRA8Unorm);
-    ViewLayerTransfer Transfer;
-    Transfer.Transfer(window, _pLayer);
 }

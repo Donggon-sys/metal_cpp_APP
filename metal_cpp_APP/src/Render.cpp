@@ -32,6 +32,10 @@ void Render::createCommandQueue() {
     _pCommandQueue = _pDevice->newCommandQueue();
 }
 
+void Render::createRenderPassDescriptor() {
+    _pRenderPassDescriptor = MTL::RenderPassDescriptor::alloc()->init();
+}
+
 void Render::createRenderPipeLine() {
     
     MTL::Function *vertexFunction = _pDefaultLibrary->newFunction(NS::String::string("vertexShader", NS::ASCIIStringEncoding));
@@ -52,8 +56,15 @@ void Render::createRenderPipeLine() {
 }
 
 void Render::draw() {
-    _pMetalDrawable = _pLayer->nextDrawable();
-    sendRenderCommand();
+    NS::AutoreleasePool *pool = NS::AutoreleasePool::alloc()->init();
+    
+    CA::MetalDrawable *metalDrawable = _pLayer->nextDrawable();
+    if (!metalDrawable) {
+        return;
+    }
+    sendRenderCommand(metalDrawable);
+    
+    pool->release();
 }
 
 void Render::encodeRenderCommand(MTL::RenderCommandEncoder *encoder) {
@@ -65,26 +76,23 @@ void Render::encodeRenderCommand(MTL::RenderCommandEncoder *encoder) {
     encoder->drawPrimitives(MTL::PrimitiveTypeTriangle, vertexStart, vertexCount);
 }
 
-void Render::sendRenderCommand() {
-    _pCommandBuffer = _pCommandQueue->commandBuffer();
+void Render::sendRenderCommand(CA::MetalDrawable *metalDrawable) {
     
-    MTL::RenderPassDescriptor *renderPassDescriptor = MTL::RenderPassDescriptor::alloc()->init();
-    MTL::RenderPassColorAttachmentDescriptor *cd = renderPassDescriptor->colorAttachments()->object(NS::UInteger(0));
-    cd->setTexture(_pMetalDrawable->texture());
+    MTL::CommandBuffer *commandBuffer = _pCommandQueue->commandBuffer();
+    
+    MTL::RenderPassColorAttachmentDescriptor *cd = _pRenderPassDescriptor->colorAttachments()->object(NS::UInteger(0));
+    cd->setTexture(metalDrawable->texture());
     cd->setLoadAction(MTL::LoadActionClear);
     cd->setClearColor(MTL::ClearColor(41.0f/255.0f, 42.0f/255.0f, 48.0f/255.0f, 1.0));
     cd->setStoreAction(MTL::StoreActionStore);
     
-    MTL::RenderCommandEncoder *encoder = _pCommandBuffer->renderCommandEncoder(renderPassDescriptor);
+    MTL::RenderCommandEncoder *encoder = commandBuffer->renderCommandEncoder(_pRenderPassDescriptor);
     encodeRenderCommand(encoder);
     encoder->endEncoding();
     
-    _pCommandBuffer->presentDrawable(_pMetalDrawable);
-    _pCommandBuffer->commit();
-    _pCommandBuffer->waitUntilCompleted();
-    
-    encoder->release();
-    renderPassDescriptor->release();
+    commandBuffer->presentDrawable(metalDrawable);
+    commandBuffer->commit();
+    commandBuffer->waitUntilCompleted();
 }
 
 void Render::setDevice(MTL::Device *device) {
@@ -100,12 +108,20 @@ Render::Render() {
 }
 
 Render::~Render() {
-    
+    _pRenderPSO->release();
+    _pCommandQueue->release();
+    _pDefaultLibrary->release();
+    _pRenderPassDescriptor->release();
+    triangleBuffer->release();
+    _pLayer->release();
+    _pDevice->release();
 }
+
 
 void Render::init() {
     createTriangleBuffer();
     createDefaultLibrary();
     createCommandQueue();
     createRenderPipeLine();
+    createRenderPassDescriptor();
 }

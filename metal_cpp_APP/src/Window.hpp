@@ -17,11 +17,8 @@
 class Window {
     
 private:
-    void initDevice();
-    void initWindow();
+
     GLFWwindow *window;
-    MTL::Device *_pDevice;
-    CA::MetalLayer *_pLayer;
     Render *render;
     
 public:

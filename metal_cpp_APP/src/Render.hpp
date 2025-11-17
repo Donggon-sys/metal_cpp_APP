@@ -15,20 +15,21 @@ class Render {
 private:
     MTL::Library *_pDefaultLibrary;
     MTL::CommandQueue *_pCommandQueue;
-    MTL::CommandBuffer *_pCommandBuffer;
+//    MTL::CommandBuffer *_pCommandBuffer;
     MTL::RenderPipelineState *_pRenderPSO;
     MTL::Buffer *triangleBuffer;
     MTL::Device *_pDevice;
     CA::MetalLayer *_pLayer;
-    CA::MetalDrawable *_pMetalDrawable;
+//    CA::MetalDrawable *_pMetalDrawable;
+    MTL::RenderPassDescriptor *_pRenderPassDescriptor;
     
     void createTriangleBuffer();
     void createDefaultLibrary();
     void createCommandQueue();
     void createRenderPipeLine();
-    
+    void createRenderPassDescriptor();
     void encodeRenderCommand(MTL::RenderCommandEncoder *encoder);
-    void sendRenderCommand();
+    void sendRenderCommand(CA::MetalDrawable *metalDrawable);
     
 public:
     Render();
