@@ -11,6 +11,7 @@
 #include <Metal/Metal.hpp>
 #include <QuartzCore/CAMetalLayer.hpp>
 #include <QuartzCore/QuartzCore.hpp>
+#include <MetalKit/MetalKit.hpp>
 
 #ifdef __OBJC__
 @class CAMetalLayer;
@@ -29,4 +30,5 @@ public:
     ViewLayerTransfer();
     ~ViewLayerTransfer();
     void Transfer(GLFWwindow *window, CA::MetalLayer *layer);
+    MTK::View *Transfer(GLFWwindow *window);
 };

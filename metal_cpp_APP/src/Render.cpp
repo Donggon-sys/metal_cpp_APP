@@ -6,6 +6,8 @@
 //
 
 #include <simd/simd.h>
+//#include <Metal/Metal.hpp>
+//#include <MetalKit/MetalKit.hpp>
 #include <iostream>
 
 #include "Render.hpp"
@@ -33,7 +35,7 @@ void Render::createCommandQueue() {
 }
 
 void Render::createRenderPassDescriptor() {
-    _pRenderPassDescriptor = MTL::RenderPassDescriptor::alloc()->init();
+    _pRenderPassDescriptor = _pView->currentRenderPassDescriptor();
 }
 
 void Render::createRenderPipeLine() {
@@ -44,7 +46,7 @@ void Render::createRenderPipeLine() {
     pipelineDescriptor->setLabel(NS::String::string("Triangle render pipeline", NS::ASCIIStringEncoding));
     pipelineDescriptor->setVertexFunction(vertexFunction);
     pipelineDescriptor->setFragmentFunction(fragmentFunction);
-    MTL::PixelFormat pixelFormat = _pLayer->pixelFormat();
+    MTL::PixelFormat pixelFormat = _pView->colorPixelFormat();
     pipelineDescriptor->colorAttachments()->object(NS::UInteger(0))->setPixelFormat(pixelFormat);
     
     NS::Error *error;
@@ -58,7 +60,7 @@ void Render::createRenderPipeLine() {
 void Render::draw() {
     NS::AutoreleasePool *pool = NS::AutoreleasePool::alloc()->init();
     
-    CA::MetalDrawable *metalDrawable = _pLayer->nextDrawable();
+    CA::MetalDrawable *metalDrawable = _pView->currentDrawable();
     if (!metalDrawable) {
         return;
     }
@@ -83,7 +85,7 @@ void Render::sendRenderCommand(CA::MetalDrawable *metalDrawable) {
     MTL::RenderPassColorAttachmentDescriptor *cd = _pRenderPassDescriptor->colorAttachments()->object(NS::UInteger(0));
     cd->setTexture(metalDrawable->texture());
     cd->setLoadAction(MTL::LoadActionClear);
-    cd->setClearColor(MTL::ClearColor(41.0f/255.0f, 42.0f/255.0f, 48.0f/255.0f, 1.0));
+//    cd->setClearColor(MTL::ClearColor(41.0f/255.0f, 42.0f/255.0f, 48.0f/255.0f, 1.0));
     cd->setStoreAction(MTL::StoreActionStore);
     
     MTL::RenderCommandEncoder *encoder = commandBuffer->renderCommandEncoder(_pRenderPassDescriptor);
@@ -103,8 +105,14 @@ void Render::setLayer(CA::MetalLayer *layer) {
     _pLayer = layer;
 }
 
-Render::Render() {
-    
+Render::Render(MTK::View &view) {
+    _pView = &view;
+    _pDevice = view.device();
+    createTriangleBuffer();
+    createDefaultLibrary();
+    createCommandQueue();
+    createRenderPipeLine();
+    createRenderPassDescriptor();
 }
 
 Render::~Render() {
@@ -119,9 +127,12 @@ Render::~Render() {
 
 
 void Render::init() {
-    createTriangleBuffer();
-    createDefaultLibrary();
-    createCommandQueue();
-    createRenderPipeLine();
-    createRenderPassDescriptor();
+
+}
+
+void Render::setViewPort(simd::uint2 viewport) {
+    //TODO: 以后这里主要是处理mvp矩阵变换中的投影矩阵的
+    std::cout << "viewport变化了" << std::endl;
+    std::cout << "width: " << viewport.x << std::endl;
+    std::cout << "height: " << viewport.y << std::endl;
 }

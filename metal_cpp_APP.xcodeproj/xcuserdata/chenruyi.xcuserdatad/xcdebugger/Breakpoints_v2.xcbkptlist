@@ -46,8 +46,8 @@
             filePath = "metal_cpp_APP/src/Adapter/ViewLayerTransfer.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "ViewLayerTransfer::Transfer(window, layer)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "metal_cpp_APP/src/Window.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "Window::run()"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "metal_cpp_APP/src/Render.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "Render::draw()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "metal_cpp_APP/src/Render.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "Render::draw()"
             landmarkType = "7">
          </BreakpointContent>

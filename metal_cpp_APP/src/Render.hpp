@@ -8,19 +8,19 @@
 #pragma once
 
 #include <Metal/Metal.hpp>
+#include <MetalKit/MetalKit.hpp>
 #include <QuartzCore/CAMetalLayer.hpp>
 #include <QuartzCore/QuartzCore.hpp>
 
 class Render {
 private:
+    MTK::View *_pView;
     MTL::Library *_pDefaultLibrary;
     MTL::CommandQueue *_pCommandQueue;
-//    MTL::CommandBuffer *_pCommandBuffer;
     MTL::RenderPipelineState *_pRenderPSO;
     MTL::Buffer *triangleBuffer;
     MTL::Device *_pDevice;
     CA::MetalLayer *_pLayer;
-//    CA::MetalDrawable *_pMetalDrawable;
     MTL::RenderPassDescriptor *_pRenderPassDescriptor;
     
     void createTriangleBuffer();
@@ -32,10 +32,11 @@ private:
     void sendRenderCommand(CA::MetalDrawable *metalDrawable);
     
 public:
-    Render();
+    Render(MTK::View &view);
     ~Render();
     void draw();
     void setDevice(MTL::Device *device);
     void setLayer(CA::MetalLayer *layer);
     void init();
+    void setViewPort(simd::uint2 viewport);
 };

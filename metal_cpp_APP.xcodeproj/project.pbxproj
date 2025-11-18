@@ -12,6 +12,7 @@
 		0B0878C42EC59C350089447A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0878C32EC59C350089447A /* QuartzCore.framework */; };
 		0B0878C62EC59C400089447A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B0878C52EC59C400089447A /* Foundation.framework */; };
 		0B2AEAD02EC59F0D00822CB4 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */; };
+		0B56800B2ECB4EBF00FD86E5 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B56800A2ECB4EBF00FD86E5 /* MetalKit.framework */; };
 		0BDB8CC72EC842C300470B53 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDB8CC62EC842C200470B53 /* Cocoa.framework */; };
 		0BDB8CC82EC842CB00470B53 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */; };
 /* End PBXBuildFile section */
@@ -35,11 +36,20 @@
 		0B0878C32EC59C350089447A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0B0878C52EC59C400089447A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		0B56800A2ECB4EBF00FD86E5 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		0B9B0BE52EC5974F006B8F6F /* metal_cpp_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = metal_cpp_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BDB8CC62EC842C200470B53 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B1F3E792ECB68FC009E3080 /* Exceptions for "metal_cpp_APP" folder in "metal_cpp_APP" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			additionalCompilerFlagsByRelativePath = {
+				src/Adapter/ViewLayerTransfer.mm = "-fno-objc-arc";
+				src/Adapter/ViewTransfer.mm = "-fno-objc-arc";
+			};
+			target = 0B9B0BE42EC5974F006B8F6F /* metal_cpp_APP */;
+		};
 		0B55B29F2EC5B60900A6ABF3 /* Exceptions for "include" folder in "metal_cpp_APP" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -67,6 +77,9 @@
 		};
 		0B2A26672EC5A63300822CB4 /* metal_cpp_APP */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B1F3E792ECB68FC009E3080 /* Exceptions for "metal_cpp_APP" folder in "metal_cpp_APP" target */,
+			);
 			explicitFileTypes = {
 				src/Adapter/ViewLayerTransfer.mm = sourcecode.cpp.objcpp;
 			};
@@ -80,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B56800B2ECB4EBF00FD86E5 /* MetalKit.framework in Frameworks */,
 				0BDB8CC72EC842C300470B53 /* Cocoa.framework in Frameworks */,
 				0B0878C62EC59C400089447A /* Foundation.framework in Frameworks */,
 				0B0878C42EC59C350089447A /* QuartzCore.framework in Frameworks */,
@@ -96,6 +110,7 @@
 		0B0878BE2EC59C240089447A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B56800A2ECB4EBF00FD86E5 /* MetalKit.framework */,
 				0BDB8CC62EC842C200470B53 /* Cocoa.framework */,
 				0B2AEACF2EC59F0C00822CB4 /* IOKit.framework */,
 				0B0878C52EC59C400089447A /* Foundation.framework */,
@@ -337,7 +352,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/include/metal-cpp",
+					"$(PROJECT_DIR)/include/metal-cpp-extension-master",
 					"$(PROJECT_DIR)/include/",
 				);
 				INFOPLIST_FILE = "";
@@ -349,6 +364,7 @@
 					"@executable_path/../Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chenruyi.metal-cpp-APP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -371,7 +387,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/include/metal-cpp",
+					"$(PROJECT_DIR)/include/metal-cpp-extension-master",
 					"$(PROJECT_DIR)/include/",
 				);
 				INFOPLIST_FILE = "";
@@ -383,6 +399,7 @@
 					"@executable_path/../Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.chenruyi.metal-cpp-APP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
