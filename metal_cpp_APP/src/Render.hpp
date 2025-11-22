@@ -6,6 +6,7 @@
 //
 
 #pragma once
+#include "Camera.hpp"
 
 #include <Metal/Metal.hpp>
 #include <MetalKit/MetalKit.hpp>
@@ -23,6 +24,8 @@ private:
     CA::MetalLayer *_pLayer;
     MTL::RenderPassDescriptor *_pRenderPassDescriptor;
     
+    Camera _camera;
+    
     void createTriangleBuffer();
     void createDefaultLibrary();
     void createCommandQueue();
@@ -32,11 +35,12 @@ private:
     void sendRenderCommand(CA::MetalDrawable *metalDrawable);
     
 public:
-    Render(MTK::View &view);
+    Render();
+    void setMTKView(MTK::View &view);
     ~Render();
     void draw();
     void setDevice(MTL::Device *device);
     void setLayer(CA::MetalLayer *layer);
-    void init();
+//    void init();
     void setViewPort(simd::uint2 viewport);
 };

@@ -9,13 +9,24 @@
 
 #include <tinygltf/tiny_gltf.h>
 #include <string>
+#include <vector>
+#include <map>
+#include <simd/simd.h>
 //#include <Foundation/Foundation.hpp>
 
 class Model {
 private:
+    std::map<int, std::string> _pMeshNames;
+    std::map<int, std::vector<simd::float3>> _pVerices;
+    std::map<int, std::vector<unsigned int>> _pIndices;
+    std::map<int, std::vector<simd::float2>> _pTexCoords;
+    std::map<int, std::vector<simd::float3>> _pNormals;
+    
+    std::string _filePath;
+    
     tinygltf::TinyGLTF loader;
     tinygltf::Model model;
-//    void loaderModelWithName(std::string modelName);
+    void _loadModel(std::string filePath);
     
 public:
     Model(std::string modelName);

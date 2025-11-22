@@ -23,12 +23,14 @@ private:
 //    MTK::View *_pView;
     simd::uint2 viewport;
     GLFWwindow *window;
-    Render *render;
+    Render render;
     static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
     void frameSizeChange(int width, int height);
     
 public:
-    void init();
+    Window();
+    ~Window();
+//    void init();
     void run();
     void release();
     

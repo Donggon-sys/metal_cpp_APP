@@ -8,10 +8,13 @@
 #ifndef ShaderType_h
 #define ShaderType_h
 
-#include <metal_stdlib>
+#include <simd/simd.h>
+//#include <metal_stdlib>
 
 typedef struct {
     float4 vertexPosition [[position]];
 } vertexOut;
+
+
 
 #endif /* ShaderType_h */

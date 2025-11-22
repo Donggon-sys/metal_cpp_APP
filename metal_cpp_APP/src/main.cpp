@@ -13,7 +13,6 @@ int main(int argc, const char * argv[]) {
     
     Window window;
     
-    window.init();
     window.run();
     window.release();
     

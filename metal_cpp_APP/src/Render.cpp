@@ -105,7 +105,8 @@ void Render::setLayer(CA::MetalLayer *layer) {
     _pLayer = layer;
 }
 
-Render::Render(MTK::View &view) {
+void Render::setMTKView(MTK::View &view) {
+    _camera = Camera(65.0f * (M_PI / 180.0f), 0.1f, 100.0f);
     _pView = &view;
     _pDevice = view.device();
     createTriangleBuffer();
@@ -116,23 +117,25 @@ Render::Render(MTK::View &view) {
 }
 
 Render::~Render() {
-    _pRenderPSO->release();
-    _pCommandQueue->release();
-    _pDefaultLibrary->release();
-    _pRenderPassDescriptor->release();
-    triangleBuffer->release();
-    _pLayer->release();
-    _pDevice->release();
+//    _pRenderPSO->release();
+//    _pCommandQueue->release();
+//    _pDefaultLibrary->release();
+//    _pRenderPassDescriptor->release();
+//    triangleBuffer->release();
+//    _pLayer->release();
+//    _pDevice->release();
 }
 
 
-void Render::init() {
-
-}
+//void Render::init() {
+//
+//}
 
 void Render::setViewPort(simd::uint2 viewport) {
     //TODO: 以后这里主要是处理mvp矩阵变换中的投影矩阵的
-    std::cout << "viewport变化了" << std::endl;
-    std::cout << "width: " << viewport.x << std::endl;
-    std::cout << "height: " << viewport.y << std::endl;
+    _camera.setAspect(viewport);
+}
+
+Render::Render() {
+    
 }
