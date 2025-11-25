@@ -20,7 +20,7 @@ Model::Model(std::string modelName) {
     _filePath = bundlePath + "/" + modelName;
     std::thread t(&Model::_loadModel, this, _filePath);
     t.join();
-    std::cout << "_pVerices.size = " << _pVerices.size() << std::endl;
+//    std::cout << "_pVerices.size = " << _pVerices.size() << std::endl;
 }
 
 void Model::_loadModel(std::string filePath) {
@@ -100,7 +100,7 @@ void Model::_loadModel(std::string filePath) {
                 
                 //TODO: 处理index
                 if (primitive.indices >= 0) {
-                    const auto &indexAccessor = model.accessors[primitive.attributes.at("NORMAL")];
+                    const auto &indexAccessor = model.accessors[primitive.indices];
                     const auto &indexBufferView = model.bufferViews[indexAccessor.bufferView];
                     const auto &indexBuffer = model.buffers[indexBufferView.buffer];
                     
@@ -110,6 +110,7 @@ void Model::_loadModel(std::string filePath) {
                         for (size_t i = 0; i < indexAccessor.count; ++i) {
                             _indices.push_back(indices[i]);
                         }
+//                        std::cout << "是int" << std::endl;
                     }
                     
                     if (indexAccessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT) {
@@ -117,6 +118,7 @@ void Model::_loadModel(std::string filePath) {
                         for (size_t i = 0; i < indexAccessor.count; ++i) {
                             _indices.push_back(indices[i]);
                         }
+//                        std::cout << "是short" << std::endl;
                     }
                     _pIndices.insert({meshIndex, _indices});
                 }
@@ -128,7 +130,17 @@ void Model::_loadModel(std::string filePath) {
     
 }
 
+//TODO: 只处理顶点数据
+void Model::setMesh(std::vector<simd::float3> &mesh) {
+    
+    mesh = _pVerices.at(0);
+}
 
+void Model::setMeshIndex(std::vector<unsigned int> &meshIndex) {
+    
+    meshIndex = _pIndices.at(0);
+    
+}
 
 Model::~Model() {
     

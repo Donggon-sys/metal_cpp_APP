@@ -6,8 +6,6 @@
 //
 
 #include <simd/simd.h>
-//#include <Metal/Metal.hpp>
-//#include <MetalKit/MetalKit.hpp>
 #include <iostream>
 
 #include "Render.hpp"
@@ -20,6 +18,16 @@ void Render::createTriangleBuffer() {
     };
     
     triangleBuffer = _pDevice->newBuffer(&TriangleVertices, sizeof(TriangleVertices), MTL::ResourceStorageModeShared);
+    
+    //TODO: sphere的
+    _sphere.setMesh(_sphereMesh);
+//    std::cout << "_sphereMesh.size = " << _sphereMesh.size() << std::endl;
+    _pSphereBuffer = _pDevice->newBuffer(_sphereMesh.data(), _sphereMesh.size() * sizeof(simd::float3), MTL::ResourceStorageModeShared);
+    
+    _sphere.setMeshIndex(_sphereMeshIndex);
+    _indexCount = (int)_sphereMeshIndex.size();
+//    std::cout << "_sphereMeshIndex.size = " << _sphereMeshIndex.size() << std::endl;
+    _pSphereIndex = _pDevice->newBuffer(_sphereMeshIndex.data(), _sphereMeshIndex.size() * sizeof(unsigned int), MTL::ResourceStorageModeShared);
 }
 
 void Render::createDefaultLibrary() {
@@ -71,11 +79,14 @@ void Render::draw() {
 
 void Render::encodeRenderCommand(MTL::RenderCommandEncoder *encoder) {
     encoder->setRenderPipelineState(_pRenderPSO);
-    encoder->setVertexBuffer(triangleBuffer, 0, 0);
-    
-    NS::UInteger vertexStart = 0;
-    NS::UInteger vertexCount = 3;
-    encoder->drawPrimitives(MTL::PrimitiveTypeTriangle, vertexStart, vertexCount);
+    //设置顶点buffer。类似于func（para）中的para
+//    encoder->setVertexBuffer(triangleBuffer, 0, 0);
+    encoder->setVertexBuffer(_pSphereBuffer, 0, 0);
+    //TODO: 让camera工作起来
+    simd_float4x4 viewProjectionMatrix = _camera.viewProjectionMatrix(65.0f * (M_PI / 180.0f), 0.1f, 100.0f);
+    encoder->setVertexBytes(&viewProjectionMatrix, sizeof(viewProjectionMatrix), 1);
+    encoder->drawIndexedPrimitives(MTL::PrimitiveTypeTriangle, _indexCount, MTL::IndexTypeUInt32, _pSphereIndex, 0, 1);
+//    encoder->drawPrimitives(MTL::PrimitiveTypeTriangle, 0, 3, 1);
 }
 
 void Render::sendRenderCommand(CA::MetalDrawable *metalDrawable) {
@@ -85,7 +96,6 @@ void Render::sendRenderCommand(CA::MetalDrawable *metalDrawable) {
     MTL::RenderPassColorAttachmentDescriptor *cd = _pRenderPassDescriptor->colorAttachments()->object(NS::UInteger(0));
     cd->setTexture(metalDrawable->texture());
     cd->setLoadAction(MTL::LoadActionClear);
-//    cd->setClearColor(MTL::ClearColor(41.0f/255.0f, 42.0f/255.0f, 48.0f/255.0f, 1.0));
     cd->setStoreAction(MTL::StoreActionStore);
     
     MTL::RenderCommandEncoder *encoder = commandBuffer->renderCommandEncoder(_pRenderPassDescriptor);
@@ -106,7 +116,7 @@ void Render::setLayer(CA::MetalLayer *layer) {
 }
 
 void Render::setMTKView(MTK::View &view) {
-    _camera = Camera(65.0f * (M_PI / 180.0f), 0.1f, 100.0f);
+    
     _pView = &view;
     _pDevice = view.device();
     createTriangleBuffer();
@@ -117,25 +127,16 @@ void Render::setMTKView(MTK::View &view) {
 }
 
 Render::~Render() {
-//    _pRenderPSO->release();
-//    _pCommandQueue->release();
-//    _pDefaultLibrary->release();
-//    _pRenderPassDescriptor->release();
-//    triangleBuffer->release();
-//    _pLayer->release();
-//    _pDevice->release();
 }
 
-
-//void Render::init() {
-//
-//}
-
-void Render::setViewPort(simd::uint2 viewport) {
+void Render::setViewPort(simd_uint2 viewport) {
     //TODO: 以后这里主要是处理mvp矩阵变换中的投影矩阵的
     _camera.setAspect(viewport);
 }
 
 Render::Render() {
-    
+    _camera = Camera();
+}
+
+Render::Render(std::string modelName): _sphere(modelName){
 }

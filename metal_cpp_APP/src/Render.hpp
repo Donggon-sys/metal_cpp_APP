@@ -7,6 +7,7 @@
 
 #pragma once
 #include "Camera.hpp"
+#include "Model.hpp"
 
 #include <Metal/Metal.hpp>
 #include <MetalKit/MetalKit.hpp>
@@ -24,8 +25,7 @@ private:
     CA::MetalLayer *_pLayer;
     MTL::RenderPassDescriptor *_pRenderPassDescriptor;
     
-    Camera _camera;
-    
+   
     void createTriangleBuffer();
     void createDefaultLibrary();
     void createCommandQueue();
@@ -34,13 +34,22 @@ private:
     void encodeRenderCommand(MTL::RenderCommandEncoder *encoder);
     void sendRenderCommand(CA::MetalDrawable *metalDrawable);
     
+    Camera _camera;
+    Model _sphere;
+    MTL::Buffer *_pSphereBuffer;
+    std::vector<simd::float3> _sphereMesh;
+    MTL::Buffer *_pSphereIndex;
+    std::vector<unsigned int> _sphereMeshIndex;
+    int _indexCount;
+    
 public:
     Render();
+    Render(std::string modelName);
     void setMTKView(MTK::View &view);
     ~Render();
     void draw();
     void setDevice(MTL::Device *device);
     void setLayer(CA::MetalLayer *layer);
 //    void init();
-    void setViewPort(simd::uint2 viewport);
+    void setViewPort(simd_uint2 viewport);
 };

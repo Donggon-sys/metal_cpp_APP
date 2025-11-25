@@ -9,75 +9,41 @@
 #include <simd/simd.h>
 #include <iostream>
 
-void Camera::setAspect(const simd::uint2 &viewport) {
-    _viewport = viewport;
-//    std::cout << " viewport 改变了" << std::endl;
-}
-
-void Camera::setPosition(const simd::float3 &position) {
-    _position = position;
-}
-
 void Camera::_viewMatrix() {
-    //TODO: camerDirection
-    simd::float3 cameraTarget = simd::float3{0.0f, 0.0f, 0.0f};
-    simd::float3 camerDirection = simd::normalize(cameraTarget - _position);
-    // temp up
-    simd::float3 up = simd::float3{0.0f, 1.0f, 0.0f};
-    //TODO: cameraRight
-    simd::float3 cameraRight = simd::normalize(simd::cross(up, camerDirection));
-    //TODO: cameraUP
-    simd::float3 cameraUP = simd::normalize(simd::cross(camerDirection, cameraRight));
-    
-    simd::float4x4 matrixLeft = {
-        simd::make_float4(cameraRight     , 0.0f),
-        simd::make_float4(cameraUP        , 0.0f),
-        simd::make_float4(camerDirection  , 0.0f),
-        simd::make_float4(0.0f, 0.0f, 0.0f, 1.0f),
-    };
-    simd::float4x4 matrixRight = {
-        simd::make_float4(1.0f, 0.0f, 0.0f, -_position.x),
-        simd::make_float4(0.0f, 1.0f, 0.0f, -_position.y),
-        simd::make_float4(0.0f, 0.0f, 1.0f, -_position.z),
-        simd::make_float4(0.0f, 0.0f, 0.0f,          1.0f),
-    };
-    
-    _ViewMatrix = matrixLeft * matrixRight;
+    _viewmatrix= glm::lookAtLH(glm::vec3(0.0f, 0.0f, 5.0f),
+                               glm::vec3(0.0f, 0.0f, 0.0f),
+                               glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-void Camera::_perspectiveProjectionMatrix() {
-    float aspect = (float)_viewport.y / _viewport.x;
-    float ys = 1 / tan(_fovyRadians * 0.5);
-    float xs = ys / aspect;
-    float zs = _farZ / (_nearZ - _farZ);
-    
-    _ProjectionMatrix = {
-        simd::make_float4(xs, 0.0f, 0.0f, 0.0f),
-        simd::make_float4(0.0f, ys, 0.0f, 0.0f),
-        simd::make_float4(0.0f, 0.0f, zs, -zs * _nearZ),
-        simd::make_float4(0.0f, 0.0f, 1.0f, 0.0f)
-    };
-}
-
-Camera::Camera() {
-    
-}
-
-Camera::Camera(float fovyRadians, float nearZ, float farZ) {
-    _fovyRadians = fovyRadians;
-    _viewport.x = 0.0f;
-    _viewport.y = 0.0f;
-    _nearZ = nearZ;
-    _farZ = farZ;
+void Camera::_perspectiveProjectionMatrix(float fovyRadians, float nearZ, float farZ) {
+//    std::cout << "_viewport: " << _viewport << std::endl;
+    float aspect = float(_viewport.x) / float(_viewport.y);
+    _projectionmatrix = glm::perspectiveLH_ZO(fovyRadians, aspect, nearZ, farZ);
 }
 
 Camera::~Camera() {
     
 }
 
-simd::float4x4 Camera::viewProjectionMatrix() {
+simd_float4x4 Camera::viewProjectionMatrix(float fovyRadians, float nearZ, float farZ) {
     _viewMatrix();
-    _perspectiveProjectionMatrix();
-    
-    return _ProjectionMatrix * _ViewMatrix;
+    _perspectiveProjectionMatrix(fovyRadians, nearZ, farZ);
+    glm::mat4x4 m = _projectionmatrix * _viewmatrix;
+    return simd_matrix(
+                                 simd_make_float4(m[0][0], m[0][1], m[0][2], m[0][3]),
+                                 simd_make_float4(m[1][0], m[1][1], m[1][2], m[1][3]),
+                                 simd_make_float4(m[2][0], m[2][1], m[2][2], m[2][3]),
+                                 simd_make_float4(m[3][0], m[3][1], m[3][2], m[3][3])
+                                 );
 }
+
+void Camera::setPosition(float x, float y, float z) {
+    _cameraPosition = simd_make_float3(x, y, z);
+}
+
+void Camera::setAspect(const simd_uint2 &viewport) {
+    _viewport = viewport;
+//    std::cout << "改变了";
+}
+
+Camera::Camera(): _cameraPosition{0.0f, 0.0f, 3.0f}, _cameraUP{0.0f, 1.0f, 0.0f}, _cameraRight{0.0f, 0.0f, 0.0f} {}

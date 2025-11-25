@@ -9,27 +9,34 @@
 
 #include <simd/simd.h>
 
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/vec4.hpp> // glm::vec4
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/ext/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale
+#include <glm/ext/matrix_clip_space.hpp> // glm::perspective
+//#include <glm/ext/scalar_constants.hpp> // glm::pi
+
 class Camera {
 private:
-    float _fovyRadians;
-    float _nearZ;
-    float _farZ;
-    simd::uint2 _viewport;
-    simd::float3 _position;
     
-//    simd::float4x4 _ModelMatrix;
-    simd::float4x4 _ViewMatrix;
-    simd::float4x4 _ProjectionMatrix;
+    simd_uint2 _viewport;
+    simd_float3 _cameraPosition;
+    simd_float3 _cameraUP;
+    simd_float3 _cameraRight;
+    
     void _viewMatrix();
-    void _perspectiveProjectionMatrix();
+    void _perspectiveProjectionMatrix(float fovyRadians, float nearZ, float farZ);
     
 public:
+    glm::mat4x4 _viewmatrix;
+    glm::mat4x4 _projectionmatrix;
     
-    void setAspect(const simd::uint2 &viewport);
-    void setPosition(const simd::float3 &position);
+    void setAspect(const simd_uint2 &viewport);
+//    void setPosition(const simd::float3 &position);
     Camera();
-    Camera(float fovyRadians, float nearZ, float farZ);
+//    Camera(float fovyRadians, float nearZ, float farZ);
     ~Camera();
-    simd::float4x4 viewProjectionMatrix();
+    simd_float4x4 viewProjectionMatrix(float fovyRadians, float nearZ, float farZ);
+    void setPosition(float x, float y, float z);
     
 };

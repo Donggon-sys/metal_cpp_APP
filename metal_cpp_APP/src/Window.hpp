@@ -20,8 +20,7 @@
 class Window {
     
 private:
-//    MTK::View *_pView;
-    simd::uint2 viewport;
+    simd_uint2 viewport;
     GLFWwindow *window;
     Render render;
     static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
@@ -30,7 +29,6 @@ private:
 public:
     Window();
     ~Window();
-//    void init();
     void run();
     void release();
     

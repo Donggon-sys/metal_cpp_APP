@@ -6,10 +6,8 @@
 //
 
 #include "Window.hpp"
-#include "Model.hpp"
 
 int main(int argc, const char * argv[]) {
-    Model *model = new Model("sphere.glb");
     
     Window window;
     

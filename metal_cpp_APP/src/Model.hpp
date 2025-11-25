@@ -12,7 +12,6 @@
 #include <vector>
 #include <map>
 #include <simd/simd.h>
-//#include <Foundation/Foundation.hpp>
 
 class Model {
 private:
@@ -29,7 +28,10 @@ private:
     void _loadModel(std::string filePath);
     
 public:
+    Model() {};
     Model(std::string modelName);
     ~Model();
+    void setMesh(std::vector<simd::float3> &mesh);
+    void setMeshIndex(std::vector<unsigned int> &meshIndex);
     
 };
