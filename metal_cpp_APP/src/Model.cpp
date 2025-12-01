@@ -74,13 +74,19 @@ void Model::_loadModel(std::string filePath) {
                     const auto &texCoordBufferView = model.bufferViews[texCoordAccessor.bufferView];
                     const auto &texCoordBuffer = model.buffers[texCoordBufferView.buffer];
                     
-                    std::vector<simd::float2>(_texCoords);
+                    std::vector<simd::float2> _texCoords;
                     const float *texCoord = reinterpret_cast<const float *>(&texCoordBuffer.data[texCoordBufferView.byteOffset + texCoordAccessor.byteOffset]);
-                    for (size_t i = 0; i < texCoordAccessor.count; ++i) {
-                        const auto &p = simd::float2{texCoord[i * 3], texCoord[i * 3 + 1]};
+                    for (size_t i = 0; i < texCoordAccessor.count; i++) {
+                        const auto &p = simd::float2{texCoord[i * 2], texCoord[i * 2 + 1]};
                         _texCoords.push_back(p);
+                        
+                        if (i == 1976) {
+                            std::cout << "u : " << texCoord[i * 2] << std::endl;
+                            std::cout << "v : " << texCoord[i * 2 + 1] << std::endl;
+                        }
                     }
                     _pTexCoords.insert({meshIndex, _texCoords});
+                    
                 }
                 
                 //TODO: 处理normals
@@ -124,6 +130,27 @@ void Model::_loadModel(std::string filePath) {
                 }
                 
                 //TODO: 处理材质 - 还没有处理
+                if (model.textures.size() > 0) {
+                    tinygltf::Texture &Tex = model.textures[0];
+                    
+//                    std::vector<unsigned char>(_image);
+                    if (Tex.source > -1) {
+                        tinygltf::Image &img = model.images[Tex.source];
+                        std::vector<unsigned char> imgSource = img.image;
+//                        _image.push_back(imgSource);
+                        
+                        std::cout << "image width: " << img.width << std::endl;
+                        std::cout << "image height: " << img.height << std::endl;
+                        std::cout << "image component: " << img.component << std::endl;
+                        
+                        size_t expectedSize = img.width * img.height * img.component * (img.bits / 8);
+                                std::cout << "expected size: " << expectedSize << std::endl;
+                        
+                        _pImage.insert({meshIndex, imgSource});
+                    }
+                }else {
+                    std::cout << "没有texture" << std::endl;
+                }
             }
         }
     }
@@ -140,6 +167,15 @@ void Model::setMeshIndex(std::vector<unsigned int> &meshIndex) {
     
     meshIndex = _pIndices.at(0);
     
+}
+
+void Model::setImage(std::vector<unsigned char> &image) {
+    
+    image = _pImage.at(0);
+}
+
+void Model::setTexCoord(std::vector<simd::float2> &texCoord) {
+    texCoord = _pTexCoords.at(0);
 }
 
 Model::~Model() {

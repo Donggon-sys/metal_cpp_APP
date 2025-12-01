@@ -20,6 +20,7 @@ private:
     std::map<int, std::vector<unsigned int>> _pIndices;
     std::map<int, std::vector<simd::float2>> _pTexCoords;
     std::map<int, std::vector<simd::float3>> _pNormals;
+    std::map<int, std::vector<unsigned char>> _pImage;
     
     std::string _filePath;
     
@@ -33,5 +34,7 @@ public:
     ~Model();
     void setMesh(std::vector<simd::float3> &mesh);
     void setMeshIndex(std::vector<unsigned int> &meshIndex);
+    void setImage(std::vector<unsigned char> &image);
+    void setTexCoord(std::vector<simd::float2> &texCoord);
     
 };

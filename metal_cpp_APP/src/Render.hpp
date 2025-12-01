@@ -37,7 +37,10 @@ private:
     Camera _camera;
     Model _sphere;
     MTL::Buffer *_pSphereBuffer;
+    MTL::Buffer *_pSphereUV;
+    MTL::Texture *_pTexture;
     std::vector<simd::float3> _sphereMesh;
+    std::vector<simd::float2> _sphereUV;
     MTL::Buffer *_pSphereIndex;
     std::vector<unsigned int> _sphereMeshIndex;
     int _indexCount;

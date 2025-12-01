@@ -10,7 +10,7 @@
 #include <iostream>
 
 void Camera::_viewMatrix() {
-    _viewmatrix= glm::lookAtLH(glm::vec3(0.0f, 0.0f, 5.0f),
+    _viewmatrix= glm::lookAtLH(glm::vec3(5.0f, 0.0f, 0.0f),
                                glm::vec3(0.0f, 0.0f, 0.0f),
                                glm::vec3(0.0f, 1.0f, 0.0f));
 }
@@ -30,10 +30,10 @@ simd_float4x4 Camera::viewProjectionMatrix(float fovyRadians, float nearZ, float
     _perspectiveProjectionMatrix(fovyRadians, nearZ, farZ);
     glm::mat4x4 m = _projectionmatrix * _viewmatrix;
     return simd_matrix(
-                                 simd_make_float4(m[0][0], m[0][1], m[0][2], m[0][3]),
-                                 simd_make_float4(m[1][0], m[1][1], m[1][2], m[1][3]),
-                                 simd_make_float4(m[2][0], m[2][1], m[2][2], m[2][3]),
-                                 simd_make_float4(m[3][0], m[3][1], m[3][2], m[3][3])
+                         simd_make_float4(m[0][0], m[0][1], m[0][2], m[0][3]),
+                         simd_make_float4(m[1][0], m[1][1], m[1][2], m[1][3]),
+                         simd_make_float4(m[2][0], m[2][1], m[2][2], m[2][3]),
+                         simd_make_float4(m[3][0], m[3][1], m[3][2], m[3][3])
                                  );
 }
 

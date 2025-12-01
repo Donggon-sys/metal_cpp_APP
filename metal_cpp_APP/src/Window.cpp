@@ -24,7 +24,7 @@ void Window::frameSizeChange(int width, int height) {
 }
 
 Window::Window() {
-    render = Render("sphere.glb");
+    render = Render("sphere2.glb");
     int width; int height;
     
     glfwInit();

@@ -12,7 +12,13 @@
 //#include <metal_stdlib>
 
 typedef struct {
+    float3 vertexPosition [[attribute(0)]];
+    float2 texCoord       [[attribute(1)]];
+} vertexIn;
+
+typedef struct {
     float4 vertexPosition [[position]];
+    float2 texCoord;
 } vertexOut;
 
 
